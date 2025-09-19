@@ -2,10 +2,16 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Управление ESP32</title>
+  <!--Масштабирование под телефоны-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <title>TacoMachine</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script src="config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
   <script defer src="script.js"></script>
   
 </head>
@@ -25,4 +31,5 @@
 
   <p id="status"></p>
 </body>
+
 </html>

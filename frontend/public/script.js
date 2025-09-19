@@ -1,32 +1,13 @@
-// Подключение к MQTT, конфиг берём из config.js
+// Подключение к MQTT
 const client = mqtt.connect(MQTT_CONFIG.host, {
   username: MQTT_CONFIG.username,
   password: MQTT_CONFIG.password
 });
 
-
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyAQXonpGaA65D_tVVKGl1L0xyRH-MJig8w",
-  authDomain: "tacomachine-mipt.firebaseapp.com",
-  projectId: "tacomachine-mipt",
-  storageBucket: "tacomachine-mipt.firebasestorage.app",
-  messagingSenderId: "541785862522",
-  appId: "1:541785862522:web:503cc73a6fd566b50326c3",
-  measurementId: "G-5CP1YVZPMF"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Подключение к Firebase
+// firebaseConfig теперь берётся из config.js
+const app = firebase.initializeApp(firebaseConfig);
+const analytics = firebase.analytics(app);
 
 
 
@@ -60,6 +41,7 @@ document.getElementById("controlForm").addEventListener("submit", function(e) {
 });
 
 
+// Закрытие соединения с HiveMQ при уходе со страницы
 window.addEventListener("beforeunload", function () {
-    client.end();  // закрывает MQTT-сессию
+    client.end();
 });
