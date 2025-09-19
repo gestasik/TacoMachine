@@ -1,1 +1,15 @@
-config.js
+# Node.js
+node_modules/
+package-lock.json
+
+# Firebase
+.firebase/
+.firebaserc
+firebase.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Личные конфигурации
+config.js       # если там хранится username/password для HiveMQ Cloud
