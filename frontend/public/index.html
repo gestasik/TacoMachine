@@ -7,29 +7,104 @@
 
 
   <title>TacoMachine</title>
-  <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script src="config.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
   <script defer src="script.js"></script>
+  <link rel="stylesheet" href="styles.css">
   
 </head>
-<body>
-  <h2>Форма управления ESP32</h2>
-  <form id="controlForm">
-    <label>Имя: <input type="text" id="name"></label><br><br>
-    <label>Команда: 
-      <select id="command">
-        <option value="on">Включить</option>
-        <option value="off">Выключить</option>
-        <option value="status">Статус</option>
-      </select>
-    </label><br><br>
-    <button type="submit">Отправить</button>
-  </form>
+<div class="container">
+        <h1>TacoMachine</h1>
+        <div class="connection-status">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="status-text">Проверка соединения...</span>
+        </div>
+        <form>
 
-  <p id="status"></p>
+            <label for="pin">PIN (4 цифры)</label>
+            <input type="number" id="pin" name="pin" inputmode="numeric" min="1000" max="9999" required autocomplete="off" placeholder="0000">
+
+            <div class="quantity-fields">
+                <div class="quantity-row">
+                    <img class="item-icon" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f32e.svg" alt="Товар 1">
+                    <label>Количество товара 1</label>
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" data-action="decrement">-</button>
+                        <input type="number" class="qty-input" name="qty1" min="0" max="4" value="1">
+                        <button type="button" class="qty-btn" data-action="increment">+</button>
+                    </div>
+                </div>
+                <div class="quantity-row">
+                    <img class="item-icon" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f32f.svg" alt="Товар 2">
+                    <label>Количество товара 2</label>
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" data-action="decrement">-</button>
+                        <input type="number" class="qty-input" name="qty2" min="0" max="4" value="1">
+                        <button type="button" class="qty-btn" data-action="increment">+</button>
+                    </div>
+                </div>
+                <div class="quantity-row">
+                    <img class="item-icon" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f35f.svg" alt="Товар 3">
+                    <label>Количество товара 3</label>
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" data-action="decrement">-</button>
+                        <input type="number" class="qty-input" name="qty3" min="0" max="4" value="1">
+                        <button type="button" class="qty-btn" data-action="increment">+</button>
+                    </div>
+                </div>
+                <div class="quantity-row">
+                        <img class="item-icon" src="imgs/icons/chicken.svg" alt="Товар 1">
+                    <label>Количество товара 4</label>
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" data-action="decrement">-</button>
+                        <input type="number" class="qty-input" name="qty4" min="0" max="4" value="1">
+                        <button type="button" class="qty-btn" data-action="increment">+</button>
+                    </div>
+                </div>
+                <div class="quantity-row">
+                    <img class="item-icon" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f354.svg" alt="Товар 5">
+                    <label>Количество товара 5</label>
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" data-action="decrement">-</button>
+                        <input type="number" class="qty-input" name="qty5" min="0" max="4" value="1">
+                        <button type="button" class="qty-btn" data-action="increment">+</button>
+                    </div>
+                </div>
+                <div class="quantity-row">
+                    <img class="item-icon" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f355.svg" alt="Товар 6">
+                    <label>Количество товара 6</label>
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" data-action="decrement">-</button>
+                        <input type="number" class="qty-input" name="qty6" min="0" max="4" value="1">
+                        <button type="button" class="qty-btn" data-action="increment">+</button>
+                    </div>
+                </div>
+                <div class="quantity-row">
+                    <img class="item-icon" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f32a.svg" alt="Товар 7">
+                    <label>Количество товара 7</label>
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" data-action="decrement">-</button>
+                        <input type="number" class="qty-input" name="qty7" min="0" max="4" value="1">
+                        <button type="button" class="qty-btn" data-action="increment">+</button>
+                    </div>
+                </div>
+                <div class="quantity-row">
+                    <img class="item-icon" src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f32b.svg" alt="Товар 8">
+                    <label>Количество товара 8</label>
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" data-action="decrement">-</button>
+                        <input type="number" class="qty-input" name="qty8" min="0" max="4" value="1">
+                        <button type="button" class="qty-btn" data-action="increment">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit">Отправить</button>
+            <div id="error-message" class="error-message"></div>
+        </form>
+    </div>
 </body>
 
 </html>
