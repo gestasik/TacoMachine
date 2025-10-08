@@ -2,6 +2,7 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
+#include <vector>
 
 // Данные Wi-Fi
 const char* ssid = "D3F";
@@ -28,7 +29,7 @@ long lastMsg = 0;
 bool insecureMode = true;
 
 void setup_wifi() {
-  if(WiFi.status() == WL_CONNECTED) return;
+  if (WiFi.status() == WL_CONNECTED) return;
 
   Serial.print("Connecting to Wi-Fi: ");
   Serial.println(ssid);
@@ -40,7 +41,7 @@ void setup_wifi() {
     delay(500);
     Serial.print(".");
     retries++;
-    if(retries > 60){ // через 30 секунд перезагружаем ESP
+    if (retries > 60) {  // через 30 секунд перезагружаем ESP
       Serial.println("\nFailed to connect to Wi-Fi. Restarting...");
       ESP.restart();
     }
@@ -54,12 +55,19 @@ void setup_wifi() {
 void callback(char* topic, byte* payload, unsigned int length) {
   inmsg = "";
   for (int i = 0; i < length; i++) inmsg += (char)payload[i];
-  
+
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("]: ");
   Serial.println(inmsg);
 
+  if (String(topic) == "esp32/qty") {
+    long qty = inmsg.toInt();
+    Serial.print("Received quantity: ");
+    Serial.println(qty);
+    client.publish("esp32/qty/ack", String(qty).c_str());
+    return;
+  }
   if (inmsg == "off") {
     digitalWrite(BUILTIN_LED, LOW);
   } else if (inmsg == "on") {
@@ -77,6 +85,7 @@ void reconnectMQTT() {
       Serial.println("connected");
       client.publish("/miptfab/esp32led/ledState/", "connected");
       client.subscribe("/miptfab/esp32led/ledControl/");
+      client.subscribe("esp32/qty");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -93,25 +102,28 @@ void setup() {
 
   setup_wifi();
 
-  if(insecureMode){
-    espClient.setInsecure(); // ⚠️ отключает проверку SSL для теста
-  } 
+  if (insecureMode) {
+    espClient.setInsecure();  // ⚠️ отключает проверку SSL для теста
+  }
   // Если хочешь использовать сертификат CA, вместо setInsecure() раскомментируй:
   // espClient.setCACert(root_ca);
 
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
+
+  std::vector <int> a = {1, 2};
+  Serial.print(a[0]);
 }
 
 void loop() {
   // Если Wi-Fi отключился — переподключаемся
-  if(WiFi.status() != WL_CONNECTED){
+  if (WiFi.status() != WL_CONNECTED) {
     Serial.println("Wi-Fi lost, reconnecting...");
     setup_wifi();
   }
 
   // Если MQTT не подключён — переподключаемся
-  if(!client.connected()){
+  if (!client.connected()) {
     reconnectMQTT();
   }
 
