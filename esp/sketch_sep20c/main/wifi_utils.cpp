@@ -4,8 +4,8 @@
 #include <esp_system.h>
 
 // Wi-Fi credentials
-const char* ssid = "D3F";
-const char* password = "FabMIPT2022";
+// const char* ssid = "D3F";
+// const char* password = "FabMIPT2022";
 
 void setup_wifi() {
   if (WiFi.status() == WL_CONNECTED) return;
