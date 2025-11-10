@@ -106,6 +106,15 @@ void handle_form_message(const String& payload) {
     Serial.print("] = ");
     Serial.println(qty[i]);
   }
+  if (qty[0]==0){
+    if (qty[1] == 1) {
+      digitalWrite(LED_PIN, HIGH);
+      Serial.println("LED ON");
+    } else if (qty[1] == 0) {
+      digitalWrite(LED_PIN, LOW);
+      Serial.println("LED OFF");
+    }
+  }
 }
 
 // =============================

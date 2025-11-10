@@ -1,11 +1,12 @@
 #include "electro_utils.h"
 #include "config.h"
+#include <Arduino.h>
 
 void PinDisplayOff(){
-  DigitalWrite(DISPLAY_PIN, LOW);
+  digitalWrite(DISPLAY_PIN, LOW);
 }
 
 
 void PinDisplaySet(int number){
-  DigitalWrite(DISPLAY_PIN, HIGH);
+  digitalWrite(DISPLAY_PIN, HIGH);
 }

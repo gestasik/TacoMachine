@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <esp_system.h>
-
+#include "config.h"
 // Wi-Fi credentials
 // const char* ssid = "D3F";
 // const char* password = "FabMIPT2022";
@@ -11,9 +11,9 @@ void setup_wifi() {
   if (WiFi.status() == WL_CONNECTED) return;
 
   Serial.print("Connecting to Wi-Fi: ");
-  Serial.println(ssid);
+  Serial.println(WIFI_SSID);
 
-  WiFi.begin(ssid, password);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
   int retries = 0;
   while (WiFi.status() != WL_CONNECTED) {

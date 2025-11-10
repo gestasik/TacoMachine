@@ -20,8 +20,12 @@
 #define insecureMode true
 
 // ======= Настройки WiFI =======
-#define ssid "D3F"
-#define password "FabMIPT2022"
+// #define WIFI_SSID "D3F"
+// #define WIFI_PASSWORD "FabMIPT2022"
+
+#define WIFI_SSID "BOTS2025"
+#define WIFI_PASSWORD "PASSWORD2025BOTS"
+
 
 // ====== Прочее ======
 

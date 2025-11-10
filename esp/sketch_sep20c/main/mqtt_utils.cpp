@@ -13,11 +13,13 @@ WiFiClientSecure espClient;
 PubSubClient client(espClient);
 
 void reconnectMQTT() {
-  while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
-    String clientId = "ESP32Client-" + String(random(0xffff), HEX);
 
-    if (client.connect(clientId.c_str(), mqttUsr, mqttPass)) { // Проверка подключения
+  while (!client.connected()) {
+    maintain_wifi();
+    Serial.print("Attempting MQTT connection...");
+    const char* clientId = "ESP32_LED_Device";
+
+    if (client.connect(clientId, mqttUsr, mqttPass)) { // Проверка подключения
       Serial.println("connected");
       client.publish(MQTT_TOPIC_LED_STATE, "connected");
 
@@ -34,10 +36,11 @@ void reconnectMQTT() {
   }
 }
 
-void setup_mqtt(bool insecureMode) {
-  if (insecureMode) {
-    espClient.setInsecure();
-  }
+void setup_mqtt(bool mode) {
+  // if (mode) {
+  //   espClient.setInsecure();
+  // }
+  espClient.setInsecure();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(mqtt_callback);
 }
